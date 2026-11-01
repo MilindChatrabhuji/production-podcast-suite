@@ -1,0 +1,25 @@
+{
+  "name": "@nexus/podcast-repurposing-engine",
+  "version": "1.0.0",
+  "description": "Deterministic podcast transcription parsing, diarization alignment, executive show notes compiler, and viral clip highlight extractor.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node dist/index.js"
+  },
+  "keywords": [
+    "podcast",
+    "repurposing",
+    "transcription",
+    "show-notes",
+    "ffmpeg",
+    "short-form-video",
+    "diarization"
+  ],
+  "author": "Dr. Milind Chatrabhuji",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

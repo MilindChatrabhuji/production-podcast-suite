@@ -1,0 +1,25 @@
+{
+  "name": "@nexus/podcast-edge-gateway",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers edge API gateway for podcast repurposing, SEO article generation, and multi-platform social thread compilation.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": [
+    "podcast",
+    "seo-article",
+    "social-thread",
+    "cloudflare-workers",
+    "edge-gateway"
+  ],
+  "author": "Dr. Milind Chatrabhuji",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240329.0",
+    "typescript": "^5.3.3",
+    "wrangler": "^3.50.0"
+  }
+}

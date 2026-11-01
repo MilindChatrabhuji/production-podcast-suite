@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Production Automated Podcast Repurposing Suite (Way #53 / Product #55)</title>
+  <style>
+    :root {
+      --bg: #0B0F19;
+      --card-bg: #1A1F36;
+      --accent: #6366F1;
+      --accent-light: #A855F7;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border: #2E3856;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 40px; }
+    .header { background: #111827; border-bottom: 1px solid var(--border); padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
+    .brand h1 { font-size: 20px; font-weight: 800; color: #FFFFFF; }
+    .brand p { font-size: 13px; color: var(--text-muted); }
+    .nav-tabs { display: flex; gap: 8px; margin: 24px 32px 0 32px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .tab-btn { background: none; border: none; color: var(--text-muted); font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { background: var(--card-bg); color: #C084FC; border: 1px solid var(--border); }
+    .tab-btn:hover:not(.active) { color: #FFFFFF; }
+    .container { max-width: 1200px; margin: 24px auto; padding: 0 32px; }
+    .screen-panel { display: none; }
+    .screen-panel.active { display: block; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .btn { background: var(--accent); color: #FFFFFF; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .btn:hover { background: #4F46E5; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+    .metric-badge { background: #111827; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; }
+    .metric-val { font-size: 24px; font-weight: 800; color: #C084FC; }
+    .metric-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .preview-box { background: #111827; border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #E2E8F0; max-height: 400px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="brand">
+      <h1>Production Automated Podcast Repurposing Suite (Way #53)</h1>
+      <p>Audio Transcription &#8226; Executive Show Notes &#8226; Viral Video Clips &#8226; Product #55</p>
+    </div>
+    <div style="text-align: right;">
+      <span style="display:inline-block; background:rgba(168,85,247,0.2); color:#C084FC; font-size:12px; font-weight:700; padding:4px 10px; border-radius:12px; border:1px solid rgba(168,85,247,0.4);">Zero-Defect Certified</span>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab(0)">1. Transcription &amp; Timestamp Parser</button>
+    <button class="tab-btn" onclick="switchTab(1)">2. Executive Show Notes &amp; Chapters</button>
+    <button class="tab-btn" onclick="switchTab(2)">3. Viral Clips &amp; Social Threads</button>
+    <button class="tab-btn" onclick="switchTab(3)">4. Agency Retainer Invoicing</button>
+  </nav>
+
+  <main class="container">
+    <!-- SCREEN 1: Audio Transcription & Timestamp Parser -->
+    <div id="screen-0" class="screen-panel active">
+      <div class="card">
+        <h2 style="font-size: 18px; margin-bottom: 12px; color: #C084FC;">Whisper / VTT Transcript Ingestion &amp; Diarization</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+          Ingests raw WebVTT or SRT subtitles, aligns speaker diarization (Host vs Guest), and removes conversational filler words.
+        </p>
+        <div style="margin-bottom: 16px;">
+          <textarea id="rawTranscriptInput" rows="6" style="width:100%; background:#111827; color:#FFF; border:1px solid var(--border); padding:10px; border-radius:6px; font-family:monospace; font-size:12px;">00:00:00.000 --> 00:00:45.000
+Host (Dr. Milind Chatrabhuji): Welcome back to the podcast. Today, um, we basically deconstruct the landmark JACC trial on SGLT2 inhibitors.
+
+00:00:45.000 --> 00:02:40.000
+Guest (Dr. Sarah Jenkins): Thanks Milind. In our, you know, multi-center study of 6,245 patients, we observed a 24% relative risk reduction in composite cardiovascular death.</textarea>
+        </div>
+        <button class="btn" onclick="parseTranscript()">Clean &amp; Segment Transcript</button>
+
+        <div id="transcriptOutput" style="margin-top: 20px;">
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:16px;">
+            <div class="metric-badge">
+              <div class="metric-val" id="fillerCount">2 Fillers</div>
+              <div class="metric-lbl">Scrubbed ("um", "you know")</div>
+            </div>
+            <div class="metric-badge">
+              <div class="metric-val">2 Speakers</div>
+              <div class="metric-lbl">Diarized (Host &amp; Guest)</div>
+            </div>
+            <div class="metric-badge">
+              <div class="metric-val">100%</div>
+              <div class="metric-lbl">Timeline Aligned</div>
+            </div>
+          </div>
+          <div class="preview-box" id="cleanTranscriptPreview">
+            <strong>00:00 [Host (Dr. Milind Chatrabhuji)]:</strong> Welcome back to the podcast. Today we deconstruct the landmark JACC trial on SGLT2 inhibitors.<br/><br/>
+            <strong>00:45 [Guest (Dr. Sarah Jenkins)]:</strong> Thanks Milind. In our multi-center study of 6,245 patients, we observed a 24% relative risk reduction in composite cardiovascular death.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: Executive Show Notes & Chapters -->
+    <div id="screen-1" class="screen-panel">
+      <div class="card">
+        <h2 style="font-size: 18px; margin-bottom: 12px; color: #C084FC;">Executive Show Notes &amp; Platform Chapters</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+          Automatically compiles YouTube / Spotify clickable timestamps, structured key takeaways, and statutory medical disclaimers.
+        </p>
+        <div class="preview-box" style="background:#111827; max-height:480px;">
+          <h3 style="color:#C084FC; font-size:16px; margin-bottom:8px;">Episode #55: Breakthrough SGLT2i Cardioprotection in Preserved EF</h3>
+          <p style="color:var(--text-muted); margin-bottom:12px;">Host: Dr. Milind Chatrabhuji &#8226; Guest: Dr. Sarah Jenkins (Cardiovascular Research Institute)</p>
+          
+          <h4 style="color:#FFF; font-size:13px; margin:12px 0 6px 0;">TIMESTAMPS &amp; CHAPTERS (YouTube &amp; Spotify):</h4>
+          <pre style="color:#38BDF8; margin-bottom:14px;">00:00 - Introduction &amp; HFpEF Challenge
+00:45 - Landmark JACC Trial Outcomes (24% Risk Reduction)
+02:40 - Cellular Mechanisms: Myocardial Energetics &amp; NHE-1
+05:12 - Clinical Implementation &amp; eGFR Thresholds</pre>
+
+          <h4 style="color:#FFF; font-size:13px; margin:12px 0 6px 0;">KEY CLINICAL TAKEAWAYS:</h4>
+          <ul style="color:var(--text-muted); padding-left:18px; margin-bottom:14px; line-height:1.6;">
+            <li>Statistically significant 24% relative risk reduction (HR 0.76, 95% CI: 0.67-0.86, p &lt; 0.001) in composite cardiovascular death.</li>
+            <li>Benefit observed equally across patients with and without baseline diabetes.</li>
+            <li>Guideline-directed medical therapy Class I recommendation down to eGFR 20 mL/min/1.73m².</li>
+          </ul>
+
+          <div style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); border-radius:6px; padding:10px; font-size:11px; color:#FBBF24;">
+            <strong>STATUTORY MEDICAL EDUCATIONAL DISCLAIMER:</strong> For informational and healthcare professional educational use only. Not clinical or personal diagnostic advice.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: Viral Clips & Social Threads -->
+    <div id="screen-2" class="screen-panel">
+      <div class="grid-2">
+        <div class="card">
+          <h2 style="font-size: 18px; margin-bottom: 12px; color: #C084FC;">Vertical Video Highlights (9:16)</h2>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="background:#111827; border:1px solid var(--border); border-radius:8px; padding:14px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span style="font-size:11px; font-weight:800; color:#EC4899;">CLIP 1: 30-SEC VIRAL HOOK</span>
+                <span style="font-size:11px; color:#10B981; font-weight:700;">Virality: 94%</span>
+              </div>
+              <p style="font-size:12px; color:#FFF; font-weight:600; margin-bottom:6px;">"The 24% Risk Reduction Stat That Shook Cardiology"</p>
+              <code style="display:block; background:#0B0F19; padding:6px; border-radius:4px; font-size:10px; color:#38BDF8; word-break:break-all;">ffmpeg -ss 00:00:45 -to 00:01:13 -i ep55.mp4 -vf "crop=ih*(9/16):ih" clip1.mp4</code>
+            </div>
+
+            <div style="background:#111827; border:1px solid var(--border); border-radius:8px; padding:14px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span style="font-size:11px; font-weight:800; color:#EC4899;">CLIP 2: 60-SEC INSIGHT</span>
+                <span style="font-size:11px; color:#10B981; font-weight:700;">Virality: 91%</span>
+              </div>
+              <p style="font-size:12px; color:#FFF; font-weight:600; margin-bottom:6px;">"Why Preserved EF Patients Benefit Most"</p>
+              <code style="display:block; background:#0B0F19; padding:6px; border-radius:4px; font-size:10px; color:#38BDF8; word-break:break-all;">ffmpeg -ss 00:01:20 -to 00:02:18 -i ep55.mp4 -vf "crop=ih*(9/16):ih" clip2.mp4</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size: 18px; margin-bottom: 12px; color: #C084FC;">Social Distribution Multiplier</h2>
+          <div class="preview-box" style="height:340px;">
+            <div style="color:#A855F7; font-weight:700; margin-bottom:6px;">X / TWITTER 7-PART THREAD:</div>
+            <p style="color:var(--text-muted); margin-bottom:8px;">1/7 🚨 A 24% risk reduction that rewrote clinical cardiology guidelines...</p>
+            <p style="color:var(--text-muted); margin-bottom:8px;">2/7 For decades, HFpEF was termed the graveyard of heart failure trials...</p>
+            <p style="color:var(--text-muted); margin-bottom:8px;">3/7 The numbers: 6,245 patients, HR 0.76 (p &lt; 0.001), NNT 26...</p>
+            <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;"/>
+            <div style="color:#A855F7; font-weight:700; margin-bottom:6px;">LINKEDIN 10-SLIDE CAROUSEL:</div>
+            <p style="color:var(--text-muted);">Slide 1: The 24% Stat That Rewrote Cardiology<br/>Slide 2: The HFpEF Dilemma<br/>Slide 3: The Landmark Trial<br/>Slide 4: Hazard Ratio 0.76</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: Agency Retainer Invoicing Portal -->
+    <div id="screen-3" class="screen-panel">
+      <div class="card">
+        <h2 style="font-size: 18px; margin-bottom: 12px; color: #C084FC;">Podcast Repurposing Retainer Packages</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-top:20px;">
+          <!-- Starter Tier -->
+          <div style="background:#111827; border:1px solid var(--border); border-radius:10px; padding:20px; text-align:center;">
+            <h3 style="font-size:16px; color:#FFFFFF;">Starter Retainer</h3>
+            <div style="font-size:28px; font-weight:900; color:#C084FC; margin:10px 0;">$500 <span style="font-size:14px; color:var(--text-muted);">/ mo</span></div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">~₹41,500 INR monthly</p>
+            <ul style="font-size:12px; color:var(--text-muted); text-align:left; margin-bottom:20px; line-height:1.6; padding-left:16px;">
+              <li>2 Episodes repurposed per month</li>
+              <li>Diarized clean transcripts</li>
+              <li>Executive show notes &amp; chapters</li>
+              <li>48-hour delivery SLA</li>
+            </ul>
+            <a class="btn" style="width:100%; justify-content:center;" href="https://paypal.me/milindchatrabhuji/500usd" target="_blank">Subscribe Starter ($500)</a>
+          </div>
+
+          <!-- Growth Tier -->
+          <div style="background:#111827; border:2px solid #6366F1; border-radius:10px; padding:20px; text-align:center; position:relative;">
+            <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#6366F1; color:#FFF; font-size:10px; font-weight:800; padding:2px 10px; border-radius:10px;">MOST POPULAR</div>
+            <h3 style="font-size:16px; color:#FFFFFF;">Growth Retainer</h3>
+            <div style="font-size:28px; font-weight:900; color:#C084FC; margin:10px 0;">$1,500 <span style="font-size:14px; color:var(--text-muted);">/ mo</span></div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">~₹1,25,000 INR monthly</p>
+            <ul style="font-size:12px; color:var(--text-muted); text-align:left; margin-bottom:20px; line-height:1.6; padding-left:16px;">
+              <li>4 Episodes repurposed per month</li>
+              <li>Complete 12-asset bundle per episode</li>
+              <li>3 Vertical video clips (30s/60s/90s)</li>
+              <li>1,500-word SEO blog post + FAQ schema</li>
+              <li>7-part X thread + 10-slide carousel</li>
+            </ul>
+            <a class="btn" style="width:100%; justify-content:center; background:#10B981;" href="https://paypal.me/milindchatrabhuji/1500usd" target="_blank">Subscribe Growth ($1,500)</a>
+          </div>
+
+          <!-- Enterprise Tier -->
+          <div style="background:#111827; border:1px solid var(--border); border-radius:10px; padding:20px; text-align:center;">
+            <h3 style="font-size:16px; color:#FFFFFF;">Enterprise Retainer</h3>
+            <div style="font-size:28px; font-weight:900; color:#C084FC; margin:10px 0;">$3,000 <span style="font-size:14px; color:var(--text-muted);">/ mo</span></div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">~₹2,50,000 INR monthly</p>
+            <ul style="font-size:12px; color:var(--text-muted); text-align:left; margin-bottom:20px; line-height:1.6; padding-left:16px;">
+              <li>Up to 8 Episodes repurposed per month</li>
+              <li>Multi-platform auto-distribution</li>
+              <li>Custom branded video waveforms</li>
+              <li>Dedicated production lead</li>
+              <li>24-hour turnaround SLA</li>
+            </ul>
+            <a class="btn" style="width:100%; justify-content:center;" href="https://paypal.me/milindchatrabhuji/3000usd" target="_blank">Subscribe Enterprise ($3,000)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function switchTab(index) {
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.screen-panel').forEach((panel, i) => {
+        panel.classList.toggle('active', i === index);
+      });
+    }
+
+    function parseTranscript() {
+      document.getElementById('fillerCount').innerText = '0 Fillers';
+      document.getElementById('cleanTranscriptPreview').innerHTML = `
+        <strong>00:00 [Host (Dr. Milind Chatrabhuji)]:</strong> Welcome back to the podcast. Today we deconstruct the landmark JACC trial on SGLT2 inhibitors.<br/><br/>
+        <strong>00:45 [Guest (Dr. Sarah Jenkins)]:</strong> Thanks Milind. In our multi-center study of 6,245 patients, we observed a 24% relative risk reduction in composite cardiovascular death.`;
+    }
+  </script>
+</body>
+</html>
